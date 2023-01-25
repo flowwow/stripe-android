@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.LaunchedEffect
@@ -34,7 +35,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import java.security.InvalidParameterException
 
-internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>() {
+internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>(), PaymentSheetErrorHandler {
     @VisibleForTesting
     internal val viewBinding by lazy {
         ActivityPaymentSheetBinding.inflate(layoutInflater)
@@ -71,6 +72,18 @@ internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>() {
     private val linkButton by lazy { viewBinding.linkButton }
     private val topMessage by lazy { viewBinding.topMessage }
     private val googlePayDivider by lazy { viewBinding.googlePayDivider }
+
+    val registerForActivityLanguageResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            finish()
+            startActivity(starterArgs?.stripeErrorHandler?.finishHandler?.invoke(this))
+        }
+    }
+
+    override fun stripeHandleError(intent: Intent) {
+        registerForActivityLanguageResult.launch(intent)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val validationResult = initializeArgs()
@@ -148,6 +161,10 @@ internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>() {
         viewModel.buyButtonState.launchAndCollectIn(this) { viewState ->
             updateErrorMessage(messageView, viewState?.errorMessage)
             viewBinding.buyButton.updateState(viewState?.convert())
+        }
+
+        viewModel.stripeErrorFlow.launchAndCollectIn(this) { stripeErrorhandler ->
+            stripeErrorhandler?.startHandler?.invoke(this, this)
         }
     }
 

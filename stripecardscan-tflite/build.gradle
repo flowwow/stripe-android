@@ -12,4 +12,3 @@ ext {
     artifactPath = "$buildDir/../tensorflow-lite-all-models.aar"
 }
 
-apply from: "${rootDir}/deploy/deploy.gradle"

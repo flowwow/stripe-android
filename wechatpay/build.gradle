@@ -10,7 +10,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
 
     testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
@@ -19,7 +19,6 @@ dependencies {
     testImplementation "androidx.test:core-ktx:$androidTestVersion"
     testImplementation "androidx.lifecycle:lifecycle-runtime-testing:$androidxLifecycleVersion"
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 ext {
@@ -27,5 +26,3 @@ ext {
     artifactName = "stripe-wechatpay"
     artifactDescrption = "The WeChat Pay module of Stripe Android Payments SDK"
 }
-
-apply from: "${rootDir}/deploy/deploy.gradle"

@@ -4,7 +4,7 @@ import java.time.Duration
 buildscript {
     apply from: 'dependencies.gradle'
     apply from: './build-configuration/build-environment.gradle'
-    ext.kotlinVersion = '1.7.20'
+    ext.kotlin_version = '1.7.20'
     ext.dokkaVersion = '1.7.20'
 
     repositories {
@@ -15,8 +15,8 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:7.4.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         classpath "org.jetbrains.kotlinx:binary-compatibility-validator:0.12.1"
         classpath 'com.karumi:shot:5.14.1'
@@ -26,11 +26,6 @@ buildscript {
         classpath 'com.google.firebase:firebase-appdistribution-gradle:3.1.1'
         classpath buildLibs.detektGradlePlugin
     }
-}
-
-plugins {
-    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
-    id 'io.codearte.nexus-staging' version '0.30.0'
 }
 
 apply plugin: "io.gitlab.arturbosch.detekt"
@@ -105,36 +100,4 @@ if (JavaVersion.current().isJava8Compatible()) {
     }
 }
 
-nexusPublishing {
-    packageGroup = GROUP
-
-    repositories {
-        sonatype {
-            username = project.findProperty('NEXUS_USERNAME') ?: ""
-            password = project.findProperty('NEXUS_PASSWORD') ?: ""
-        }
-    }
-
-    clientTimeout = Duration.ofMinutes(5)
-    connectTimeout = Duration.ofMinutes(1)
-
-    transitionCheckOptions {
-        maxRetries.set(40)
-        delayBetween.set(Duration.ofSeconds(10))
-    }
-}
-
 apply plugin: 'binary-compatibility-validator'
-apply plugin: 'org.jetbrains.dokka'
-
-
-tasks.dokkaHtmlMultiModule.configure {
-    outputDirectory = new File("${project.rootDir}/docs")
-}
-
-apiValidation {
-    ignoredPackages += ["com.stripe.android.databinding"]
-    ignoredProjects += ["example", "paymentsheet-example", "stripecardscan-example", "identity-example", "financial-connections-example"]
-    nonPublicMarkers.add("androidx.annotation.RestrictTo")
-    nonPublicMarkers.add("dagger.internal.DaggerGenerated")
-}

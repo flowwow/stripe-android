@@ -5,12 +5,12 @@ apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
 
 dependencies {
-    api project(":stripe-core")
-    implementation project(":camera-core")
+    api project(":stripe:stripe-core")
+    implementation project(":stripe:camera-core")
 
     // If a user wants to use their own TFLite implementation, they can exclude this dependency
     // explicitly in their gradle dependency.
-    implementation project(":stripecardscan-tflite")
+    implementation project(":stripe:stripecardscan-tflite")
 
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintlayoutVersion"
@@ -23,7 +23,7 @@ dependencies {
     testImplementation "androidx.test:core:$androidTestVersion"
     testImplementation "androidx.test:runner:$androidTestVersion"
     testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoCoreVersion"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
@@ -32,12 +32,11 @@ dependencies {
 
     androidTestImplementation "androidx.test:rules:$androidTestVersion"
     androidTestImplementation "androidx.test:runner:$androidTestVersion"
-    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlinVersion"
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     androidTestImplementation "androidx.test:core-ktx:1.4.0"
     androidTestUtil "androidx.test:orchestrator:$androidTestOrchestratorVersion"
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 android {
@@ -71,4 +70,3 @@ ext {
     artifactDescrption = "The stripecardscan module of Stripe Payment Android SDK"
 }
 
-apply from: "${rootDir}/deploy/deploy.gradle"

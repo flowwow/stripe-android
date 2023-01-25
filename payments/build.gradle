@@ -1,15 +1,12 @@
 apply from: configs.androidLibrary
-
-apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 dependencies {
-    api project(':payments-core')
-    api project(':paymentsheet')
+    api project(':stripe:payments-core')
+    api project(':stripe:paymentsheet')
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 ext {
@@ -18,4 +15,3 @@ ext {
     artifactDescrption = "Stripe Android SDK"
 }
 
-apply from: "${rootDir}/deploy/deploy.gradle"

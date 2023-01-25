@@ -12,6 +12,7 @@ import com.stripe.android.core.injection.WeakMapInjectorRegistry
 import com.stripe.android.paymentsheet.forms.FormViewModel
 import com.stripe.android.paymentsheet.injection.DaggerPaymentSheetLauncherComponent
 import com.stripe.android.paymentsheet.injection.PaymentSheetLauncherComponent
+import com.stripe.android.paymentsheet.model.StripeErrorHandler
 import org.jetbrains.annotations.TestOnly
 
 /**
@@ -89,12 +90,14 @@ internal class DefaultPaymentSheetLauncher(
 
     override fun presentWithSetupIntent(
         setupIntentClientSecret: String,
-        configuration: PaymentSheet.Configuration?
+        configuration: PaymentSheet.Configuration?,
+        stripeErrorHandler: StripeErrorHandler?
     ) = present(
         PaymentSheetContract.Args.createSetupIntentArgsWithInjectorKey(
             setupIntentClientSecret,
             configuration,
-            injectorKey
+            injectorKey,
+            stripeErrorHandler
         )
     )
 

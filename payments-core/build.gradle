@@ -1,13 +1,12 @@
 apply from: configs.androidLibrary
-
 apply plugin: 'kotlin-kapt'
 apply plugin: 'checkstyle'
 apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
 
 dependencies {
-    api project(":stripe-core")
-    api project(":payments-model")
-    compileOnly project(':financial-connections')
+    api project(":stripe:stripe-core")
+    api project(":stripe:payments-model")
+    compileOnly project(':stripe:financial-connections')
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
@@ -36,21 +35,20 @@ dependencies {
     javadocDeps "androidx.appcompat:appcompat:$androidxAppcompatVersion"
     javadocDeps "com.google.android.material:material:$materialVersion"
 
-    testImplementation project(':financial-connections')
+    testImplementation project(':stripe:financial-connections')
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "androidx.test:core:$androidTestVersion"
     testImplementation "org.json:json:$jsonVersion"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "androidx.arch.core:core-testing:$androidxArchCoreVersion"
     testImplementation "androidx.fragment:fragment-testing:$androidxFragmentVersion"
     testImplementation "androidx.lifecycle:lifecycle-runtime-testing:$androidxLifecycleVersion"
-    testImplementation testLibs.turbine
 
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test:rules:$androidTestVersion"
@@ -58,7 +56,6 @@ dependencies {
 
     androidTestUtil "androidx.test:orchestrator:$androidTestOrchestratorVersion"
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 android {
@@ -104,5 +101,3 @@ ext {
     artifactName = "payments-core"
     artifactDescrption = "The core module of Stripe Payment Android SDK"
 }
-
-apply from: "${rootDir}/deploy/deploy.gradle"

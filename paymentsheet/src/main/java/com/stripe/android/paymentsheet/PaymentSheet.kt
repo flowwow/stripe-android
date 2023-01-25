@@ -15,6 +15,7 @@ import com.stripe.android.model.SetupIntent
 import com.stripe.android.paymentsheet.addresselement.AddressDetails
 import com.stripe.android.paymentsheet.flowcontroller.FlowControllerFactory
 import com.stripe.android.paymentsheet.model.PaymentOption
+import com.stripe.android.paymentsheet.model.StripeErrorHandler
 import com.stripe.android.uicore.StripeThemeDefaults
 import com.stripe.android.uicore.getRawValueFromDimenResource
 import kotlinx.parcelize.Parcelize
@@ -78,9 +79,10 @@ class PaymentSheet internal constructor(
     @JvmOverloads
     fun presentWithSetupIntent(
         setupIntentClientSecret: String,
-        configuration: Configuration? = null
+        configuration: Configuration? = null,
+        stripeErrorHandler: StripeErrorHandler? = null
     ) {
-        paymentSheetLauncher.presentWithSetupIntent(setupIntentClientSecret, configuration)
+        paymentSheetLauncher.presentWithSetupIntent(setupIntentClientSecret, configuration, stripeErrorHandler)
     }
 
     /** Configuration for [PaymentSheet] **/

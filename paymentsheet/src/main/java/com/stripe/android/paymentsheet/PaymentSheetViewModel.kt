@@ -21,6 +21,7 @@ import com.stripe.android.core.injection.Injector
 import com.stripe.android.core.injection.InjectorKey
 import com.stripe.android.core.injection.NonFallbackInjector
 import com.stripe.android.core.injection.injectWithFallback
+import com.stripe.android.exception.CardException
 import com.stripe.android.googlepaylauncher.GooglePayEnvironment
 import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncher
 import com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncherContract
@@ -34,6 +35,7 @@ import com.stripe.android.model.PaymentMethod.Type.Card
 import com.stripe.android.model.StripeIntent
 import com.stripe.android.payments.paymentlauncher.PaymentLauncherContract
 import com.stripe.android.payments.paymentlauncher.PaymentResult
+import com.stripe.android.payments.paymentlauncher.PaymentResult.Failed
 import com.stripe.android.payments.paymentlauncher.StripePaymentLauncher
 import com.stripe.android.payments.paymentlauncher.StripePaymentLauncherAssistedFactory
 import com.stripe.android.paymentsheet.addresselement.toConfirmPaymentIntentShipping
@@ -47,6 +49,7 @@ import com.stripe.android.paymentsheet.model.ConfirmStripeIntentParamsFactory
 import com.stripe.android.paymentsheet.model.PaymentIntentClientSecret
 import com.stripe.android.paymentsheet.model.PaymentSelection
 import com.stripe.android.paymentsheet.model.PaymentSheetViewState
+import com.stripe.android.paymentsheet.model.StripeErrorHandler
 import com.stripe.android.paymentsheet.model.StripeIntentValidator
 import com.stripe.android.paymentsheet.navigation.PaymentSheetScreen
 import com.stripe.android.paymentsheet.paymentdatacollection.ach.ACHText
@@ -69,6 +72,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
@@ -183,6 +187,11 @@ internal class PaymentSheetViewModel @Inject internal constructor(
     }
 
     private var paymentLauncher: StripePaymentLauncher? = null
+
+    private val _stripeErrorFlow = MutableSharedFlow<StripeErrorHandler?>()
+    val stripeErrorFlow: SharedFlow<StripeErrorHandler?> = _stripeErrorFlow.asSharedFlow()
+
+    private var isRuCountry = false
 
     init {
         viewModelScope.launch {
@@ -313,6 +322,9 @@ internal class PaymentSheetViewModel @Inject internal constructor(
 
     fun checkout() {
         val paymentSelection = selection.value
+        val address = (paymentSelection as PaymentSelection.New.Card).paymentMethodCreateParams.toParamMap()["billing_details"]
+        val country = (((address as LinkedHashMap<String, LinkedHashMap<String, String>>)["address"] as LinkedHashMap<String, String>)["country"] as String)
+        isRuCountry = country == "RU"
         checkout(paymentSelection, CheckoutIdentifier.SheetBottomBuy)
     }
 
@@ -437,6 +449,20 @@ internal class PaymentSheetViewModel @Inject internal constructor(
                 stripeIntentRepository.get(args.clientSecret)
             }.fold(
                 onSuccess = {
+                    if(paymentResult is Failed) {
+                        when(paymentResult.throwable) {
+                            is CardException -> {
+                                if ((paymentResult.throwable as CardException).declineCode == "generic_decline" && args.stripeErrorHandler?.isNeededCurrency == true && isRuCountry) {
+                                    viewModelScope.launch {
+                                        _stripeErrorFlow.emit(args.stripeErrorHandler)
+                                    }
+                                }
+                            }
+                            else -> {
+
+                            }
+                        }
+                    }
                     processPayment(it.intent, paymentResult)
                 },
                 onFailure = ::onFatal

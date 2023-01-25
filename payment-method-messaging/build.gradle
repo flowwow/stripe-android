@@ -45,8 +45,8 @@ dependencies {
     testImplementation "androidx.test:core:$androidTestVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
     testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
@@ -54,7 +54,6 @@ dependencies {
 
     androidTestUtil "androidx.test:orchestrator:$androidTestOrchestratorVersion"
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 ext {
@@ -62,5 +61,3 @@ ext {
     artifactName = "payment-method-messaging"
     artifactDescrption = "The Payment Method Messaging module of Stripe Android SDK"
 }
-
-apply from: "${rootDir}/deploy/deploy.gradle"

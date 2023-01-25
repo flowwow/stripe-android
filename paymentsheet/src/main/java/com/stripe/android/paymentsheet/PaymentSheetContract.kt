@@ -13,10 +13,11 @@ import com.stripe.android.core.injection.InjectorKey
 import com.stripe.android.paymentsheet.model.ClientSecret
 import com.stripe.android.paymentsheet.model.PaymentIntentClientSecret
 import com.stripe.android.paymentsheet.model.SetupIntentClientSecret
+import com.stripe.android.paymentsheet.model.StripeErrorHandler
 import com.stripe.android.view.ActivityStarter
 import kotlinx.parcelize.Parcelize
 
-class PaymentSheetContract :
+class PaymentSheetContract:
     ActivityResultContract<PaymentSheetContract.Args, PaymentSheetResult>() {
     override fun createIntent(
         context: Context,
@@ -42,7 +43,8 @@ class PaymentSheetContract :
         internal val clientSecret: ClientSecret,
         internal val config: PaymentSheet.Configuration?,
         @ColorInt internal val statusBarColor: Int? = null,
-        @InjectorKey internal val injectorKey: String = DUMMY_INJECTOR_KEY
+        @InjectorKey internal val injectorKey: String = DUMMY_INJECTOR_KEY,
+        internal val stripeErrorHandler: StripeErrorHandler? = null
     ) : ActivityStarter.Args {
         val googlePayConfig: PaymentSheet.GooglePayConfiguration? get() = config?.googlePay
 
@@ -80,11 +82,13 @@ class PaymentSheetContract :
             internal fun createSetupIntentArgsWithInjectorKey(
                 clientSecret: String,
                 config: PaymentSheet.Configuration? = null,
-                @InjectorKey injectorKey: String
+                @InjectorKey injectorKey: String,
+                stripeErrorHandler: StripeErrorHandler? = null
             ) = Args(
                 SetupIntentClientSecret(clientSecret),
                 config,
-                injectorKey = injectorKey
+                injectorKey = injectorKey,
+                stripeErrorHandler = stripeErrorHandler
             )
         }
     }

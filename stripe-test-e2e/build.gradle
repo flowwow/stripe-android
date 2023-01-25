@@ -71,13 +71,12 @@ dependencies {
     testImplementation "com.squareup.retrofit2:retrofit:2.9.0"
     testImplementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 task ktlint(type: JavaExec, group: "verification") {

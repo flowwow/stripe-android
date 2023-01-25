@@ -66,10 +66,9 @@ dependencies {
     testImplementation "androidx.fragment:fragment-testing:$androidxFragmentVersion"
     testImplementation "androidx.navigation:navigation-testing:$androidxNavigationVersion"
     testImplementation "androidx.arch.core:core-testing:$androidxArchCoreVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 android {
@@ -107,5 +106,3 @@ ext {
     artifactName = "identity"
     artifactDescrption = "Stripe Identity Android SDK"
 }
-
-apply from: "${rootDir}/deploy/deploy.gradle"

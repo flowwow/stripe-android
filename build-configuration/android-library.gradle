@@ -5,10 +5,6 @@
  */
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
-apply plugin: "org.jetbrains.dokka"
-
-apply from: rootProject.file('build-configuration/detekt.gradle')
-apply from: rootProject.file('build-configuration/ktlint.gradle')
 
 assemble.dependsOn('lint')
 check.dependsOn('checkstyle')
@@ -23,11 +19,11 @@ if (System.getenv("JITPACK")) {
 }
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion 33
+    buildToolsVersion "30.0.3"
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion rootProject.ext.compileSdkVersion
+        targetSdkVersion 33
         consumerProguardFiles 'proguard-rules.txt'
 
         vectorDrawables.useSupportLibrary = true
@@ -50,10 +46,6 @@ android {
         enable "Interoperability"
         disable "CoroutineCreationDuringComposition"
         lintConfig file("../settings/lint.xml")
-    }
-
-    dokkaHtml {
-        outputDirectory = new File("${project.rootDir}/docs/$project.name")
     }
 
     compileOptions {

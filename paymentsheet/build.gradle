@@ -7,11 +7,11 @@ apply plugin: 'shot'
 apply plugin: 'app.cash.paparazzi'
 
 dependencies {
-    implementation project(":link")
-    implementation project(":payments-core")
-    implementation project(':payments-ui-core')
-    implementation project(':stripe-ui-core')
-    compileOnly project(':financial-connections')
+    implementation project(":stripe:link")
+    implementation project(":stripe:payments-core")
+    implementation project(':stripe:payments-ui-core')
+    implementation project(':stripe:stripe-ui-core')
+    compileOnly project(':stripe:financial-connections')
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
@@ -55,8 +55,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationVersion"
 
     testImplementation "org.hamcrest:hamcrest:2.2"
-    testImplementation project(':link')
-    testImplementation project(':financial-connections')
+    testImplementation project(':stripe:link')
+    testImplementation project(':stripe:financial-connections')
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
     testImplementation "org.mockito:mockito-inline:$mockitoCoreVersion"
@@ -64,15 +64,14 @@ dependencies {
     testImplementation "androidx.test:core:$androidTestVersion"
     testImplementation "org.json:json:$jsonVersion"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "androidx.test.ext:junit-ktx:$androidTestJunitVersion"
     testImplementation "androidx.arch.core:core-testing:$androidxArchCoreVersion"
     testImplementation "androidx.fragment:fragment-testing:$androidxFragmentVersion"
     testImplementation "androidx.compose.ui:ui-test-junit4:$androidxComposeVersion"
-    testImplementation testLibs.turbine
 
     // temporary fix for running compose test in RobolectricTestRunner, see https://github.com/robolectric/robolectric/issues/6593
     testImplementation "androidx.test.espresso:espresso-core:3.5.0"
@@ -100,7 +99,6 @@ dependencies {
     // Test rules and transitive dependencies:
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$androidxComposeVersion")
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 shot {
@@ -152,4 +150,3 @@ ext {
     artifactDescrption = "The paymentsheet module of Stripe Payment Android SDK"
 }
 
-apply from: "${rootDir}/deploy/deploy.gradle"

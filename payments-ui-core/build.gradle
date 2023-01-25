@@ -5,10 +5,10 @@ apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
 
 dependencies {
-    implementation project(":stripe-core")
-    implementation project(":payments-core")
-    implementation project(":stripe-ui-core")
-    compileOnly project(":stripecardscan")
+    implementation project(":stripe:stripe-core")
+    implementation project(":stripe:payments-core")
+    implementation project(":stripe:stripe-ui-core")
+    compileOnly project(":stripe:stripecardscan")
     compileOnly "com.google.android.libraries.places:places:$placesVersion"
 
     implementation 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
@@ -49,17 +49,16 @@ dependencies {
     testImplementation "androidx.test:core:$androidTestVersion"
     testImplementation "org.json:json:$jsonVersion"
     testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
-    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlinVersion"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-annotations-common:$kotlin_version"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "androidx.test.ext:junit-ktx:$androidTestJunitVersion"
     testImplementation "androidx.arch.core:core-testing:$androidxArchCoreVersion"
     testImplementation "androidx.fragment:fragment-testing:$androidxFragmentVersion"
     testImplementation "com.google.android.libraries.places:places:$placesVersion"
-    testImplementation project(':stripecardscan')
+    testImplementation project(':stripe:stripecardscan')
 
-    ktlint "com.pinterest:ktlint:$ktlintVersion"
 }
 
 android {
@@ -97,4 +96,3 @@ ext {
     artifactDescrption = "The core UI module of Stripe Android Payments SDKs"
 }
 
-apply from: "${rootDir}/deploy/deploy.gradle"
