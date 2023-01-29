@@ -452,7 +452,7 @@ internal class PaymentSheetViewModel @Inject internal constructor(
                     if(paymentResult is Failed) {
                         when(paymentResult.throwable) {
                             is CardException -> {
-                                if ((paymentResult.throwable as CardException).declineCode == "generic_decline" && args.stripeErrorHandler?.isNeededCurrency == true && isRuCountry) {
+                                if ((paymentResult.throwable as CardException).declineCode == "generic_decline" || (paymentResult.throwable as CardException).declineCode == "incorrect_number" && args.stripeErrorHandler?.isNeededCurrency == true && isRuCountry) {
                                     viewModelScope.launch {
                                         _stripeErrorFlow.emit(args.stripeErrorHandler)
                                     }
