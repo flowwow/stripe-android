@@ -1,8 +1,10 @@
 package com.stripe.android.paymentsheet
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -34,6 +36,7 @@ import com.stripe.android.uicore.StripeTheme
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNotNull
 import java.security.InvalidParameterException
+import java.util.*
 
 internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>(), PaymentSheetErrorHandler {
     @VisibleForTesting
@@ -83,6 +86,16 @@ internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>(), P
 
     override fun stripeHandleError(intent: Intent) {
         registerForActivityLanguageResult.launch(intent)
+    }
+
+    override fun attachBaseContext(newBase: Context?) {
+        Log.d("LOG_TAG", "onCreate: payment sheet activity lang ${newBase?.applicationContext?.resources?.configuration?.locale?.language}")
+        val locale = Locale(ConfigurationHelper.lang)
+        Locale.setDefault(locale)
+        val configuration = newBase?.resources?.configuration
+        configuration?.setLocale(locale)
+        newBase?.resources?.updateConfiguration(configuration,null)
+        super.attachBaseContext(newBase)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

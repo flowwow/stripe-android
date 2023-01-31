@@ -82,6 +82,8 @@ import javax.inject.Inject
 import javax.inject.Provider
 import kotlin.coroutines.CoroutineContext
 
+const val RU_CODE = "RU"
+
 internal class PaymentSheetViewModel @Inject internal constructor(
     // Properties provided through PaymentSheetViewModelComponent.Builder
     application: Application,
@@ -322,9 +324,18 @@ internal class PaymentSheetViewModel @Inject internal constructor(
 
     fun checkout() {
         val paymentSelection = selection.value
-        val address = (paymentSelection as PaymentSelection.New.Card).paymentMethodCreateParams.toParamMap()["billing_details"]
-        val country = (((address as LinkedHashMap<String, LinkedHashMap<String, String>>)["address"] as LinkedHashMap<String, String>)["country"] as String)
-        isRuCountry = country == "RU"
+        when(paymentSelection){
+            is PaymentSelection.New.Card -> {
+                val address = paymentSelection.paymentMethodCreateParams.toParamMap()["billing_details"]
+                val country = (((address as LinkedHashMap<String, LinkedHashMap<String, String>>)["address"] as LinkedHashMap<String, String>)["country"] as String)
+                isRuCountry = country == RU_CODE
+            }
+            is PaymentSelection.Saved -> {
+                isRuCountry = paymentSelection.paymentMethod.billingDetails?.address?.country == RU_CODE
+            }
+            else -> {}
+        }
+
         checkout(paymentSelection, CheckoutIdentifier.SheetBottomBuy)
     }
 
