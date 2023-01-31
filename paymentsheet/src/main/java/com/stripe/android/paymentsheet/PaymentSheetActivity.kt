@@ -89,7 +89,6 @@ internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>(), P
     }
 
     override fun attachBaseContext(newBase: Context?) {
-        Log.d("LOG_TAG", "onCreate: payment sheet activity lang ${newBase?.applicationContext?.resources?.configuration?.locale?.language}")
         val locale = Locale(ConfigurationHelper.lang)
         Locale.setDefault(locale)
         val configuration = newBase?.resources?.configuration
