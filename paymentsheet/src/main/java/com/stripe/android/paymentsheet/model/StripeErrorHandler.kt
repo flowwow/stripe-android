@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class StripeErrorHandler(
-    val startHandler: (AppCompatActivity, PaymentSheetErrorHandler) -> Unit,
-    val finishHandler: (AppCompatActivity) -> Intent,
+    val startHandler: ((AppCompatActivity, PaymentSheetErrorHandler) -> Unit)?,
+    val finishHandler: ((AppCompatActivity) -> Intent)?,
     val isNeededCurrency: Boolean
 ): Parcelable
