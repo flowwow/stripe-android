@@ -6,8 +6,6 @@ apply from: configs.androidLibrary
 apply plugin: 'kotlin-kapt'
 apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
-apply plugin: 'shot'
-apply plugin: 'app.cash.paparazzi'
 
 dependencies {
     implementation project(":stripe:link")
@@ -104,14 +102,8 @@ dependencies {
 
 }
 
-shot {
-    applicationId = "com.stripe.android.paymentsheet.test"
-    tolerance = 1 // 1% tolerance because screenshots look slightly different on arm64-v8a vs x86_64 vs m1 emulators
-}
-
 android {
     defaultConfig {
-        testInstrumentationRunner "com.karumi.shot.ShotTestRunner"
         testApplicationId "com.stripe.android.paymentsheet.test"
     }
 
