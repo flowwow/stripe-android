@@ -1,3 +1,6 @@
+ext.configs = [
+        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
+]
 apply from: configs.androidLibrary
 
 apply plugin: 'kotlin-kapt'
