@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -38,18 +39,31 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation project(":stripe-core")
-    implementation project(":financial-connections")
-    implementation project(":camera-core")
-    implementation project(":identity")
-    implementation project(":link")
-    implementation project(":payment-method-messaging")
-    implementation project(":payments")
-    implementation project(":payments-core")
-    implementation project(":payments-model")
-    implementation project(":payments-ui-core")
-    implementation project(":paymentsheet")
-    implementation project(":stripe-ui-core")
-    implementation project(":stripecardscan")
-    implementation project(":stripecardscan-tflite")
+    api project(":stripe-core")
+    api project(":financial-connections")
+    api project(":camera-core")
+    api project(":identity")
+    api project(":link")
+    api project(":payment-method-messaging")
+    api project(":payments")
+    api project(":payments-core")
+    api project(":payments-model")
+    api project(":payments-ui-core")
+    api project(":paymentsheet")
+    api project(":stripe-ui-core")
+    api project(":stripecardscan")
+    api project(":stripecardscan-tflite")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.flowwow.stripe'
+                artifactId = 'stripe-flowwow-library'
+                version = '1.0.0'
+            }
+        }
+    }
 }

@@ -4,7 +4,6 @@ ext.configs = [
 apply from: configs.androidLibrary
 apply plugin: 'kotlin-android'
 apply plugin: 'signing'
-apply plugin: 'maven-publish'
 
 dependencies {
     api project(':payments-core')
@@ -12,22 +11,4 @@ dependencies {
 
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.flowwow.stripe'
-                artifactId = 'stripe-flowwow-library'
-                version = '1.0.0'
-            }
-        }
-    }
-}
-
-ext {
-    artifactId = "stripe-android"
-    artifactName = "stripe-android"
-    artifactDescrption = "Stripe Android SDK"
-}
 
