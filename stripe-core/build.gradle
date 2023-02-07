@@ -1,5 +1,5 @@
 ext.configs = [
-        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
+        androidLibrary: "${project.rootDir}/build-configuration/android-library.gradle",
 ]
 apply from: configs.androidLibrary
 
