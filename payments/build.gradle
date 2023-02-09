@@ -1,5 +1,5 @@
 ext.configs = [
-        androidLibrary: "${project.rootDir}/build-configuration/android-library.gradle",
+        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
 ]
 apply from: configs.androidLibrary
 apply plugin: 'kotlin-android'
@@ -7,8 +7,8 @@ apply plugin: 'signing'
 apply plugin: 'maven-publish'
 
 dependencies {
-    api project(':payments-core')
-    api project(':paymentsheet')
+    api project(':stripe:payments-core')
+    api project(':stripe:paymentsheet')
 
 }
 

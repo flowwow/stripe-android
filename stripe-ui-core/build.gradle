@@ -1,5 +1,5 @@
 ext.configs = [
-        androidLibrary: "${project.rootDir}/build-configuration/android-library.gradle",
+        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
 ]
 apply from: configs.androidLibrary
 
@@ -25,7 +25,7 @@ android {
 }
 
 dependencies {
-    implementation project(":stripe-core")
+    implementation project(":stripe:stripe-core")
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.compose.ui:ui:$androidxComposeVersion"
     implementation "androidx.compose.ui:ui-tooling-preview:$androidxComposeVersion"

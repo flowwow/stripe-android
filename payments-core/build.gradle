@@ -1,5 +1,5 @@
 ext.configs = [
-        androidLibrary: "${project.rootDir}/build-configuration/android-library.gradle",
+        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
 ]
 apply from: configs.androidLibrary
 apply plugin: 'kotlin-kapt'
@@ -7,9 +7,9 @@ apply plugin: 'checkstyle'
 apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
 
 dependencies {
-    api project(":stripe-core")
-    api project(":payments-model")
-    compileOnly project(':financial-connections')
+    api project(":stripe:stripe-core")
+    api project(":stripe:payments-model")
+    compileOnly project(':stripe:financial-connections')
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
@@ -38,7 +38,7 @@ dependencies {
     javadocDeps "androidx.appcompat:appcompat:$androidxAppcompatVersion"
     javadocDeps "com.google.android.material:material:$materialVersion"
 
-    testImplementation project(':financial-connections')
+    testImplementation project(':stripe:financial-connections')
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"

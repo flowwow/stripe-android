@@ -1,11 +1,11 @@
 ext.configs = [
-        androidLibrary: "${project.rootDir}/build-configuration/android-library.gradle",
+        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
 ]
 
 apply from: configs.androidLibrary
 
 dependencies {
-    implementation project(":stripe-core")
+    implementation project(":stripe:stripe-core")
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintlayoutVersion"
 
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"

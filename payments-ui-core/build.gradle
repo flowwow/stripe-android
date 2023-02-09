@@ -1,5 +1,5 @@
 ext.configs = [
-        androidLibrary: "${project.rootDir}/build-configuration/android-library.gradle",
+        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
 ]
 apply from: configs.androidLibrary
 
@@ -8,10 +8,10 @@ apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
 
 dependencies {
-    implementation project(":stripe-core")
-    implementation project(":payments-core")
-    implementation project(":stripe-ui-core")
-    compileOnly project(":stripecardscan")
+    implementation project(":stripe:stripe-core")
+    implementation project(":stripe:payments-core")
+    implementation project(":stripe:stripe-ui-core")
+    compileOnly project(":stripe:stripecardscan")
     compileOnly "com.google.android.libraries.places:places:$placesVersion"
 
     implementation 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
@@ -60,7 +60,7 @@ dependencies {
     testImplementation "androidx.arch.core:core-testing:$androidxArchCoreVersion"
     testImplementation "androidx.fragment:fragment-testing:$androidxFragmentVersion"
     testImplementation "com.google.android.libraries.places:places:$placesVersion"
-    testImplementation project(':stripecardscan')
+    testImplementation project(':stripe:stripecardscan')
 
 }
 

@@ -1,5 +1,5 @@
 ext.configs = [
-        androidLibrary: "${project.rootDir}/build-configuration/android-library.gradle",
+        androidLibrary: "${project.rootDir}/stripe-android/build-configuration/android-library.gradle",
 ]
 apply from: configs.androidLibrary
 
@@ -21,9 +21,9 @@ android {
 }
 
 dependencies {
-    api project(":stripe-core")
-    api project(":stripe-ui-core")
-    api project(":payments-model")
+    api project(":stripe:stripe-core")
+    api project(":stripe:stripe-ui-core")
+    api project(":stripe:payments-model")
 
     implementation "androidx.activity:activity-ktx:$androidxActivityVersion"
     implementation "androidx.activity:activity-compose:$androidxActivityVersion"
