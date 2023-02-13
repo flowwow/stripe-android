@@ -5,9 +5,12 @@ apply from: configs.androidLibrary
 
 apply plugin: 'checkstyle'
 apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
+apply plugin: 'maven-publish'
 
 dependencies {
-    implementation project(":stripe-core")
+    implementation project(":stripe-core") {
+        version VERSION_NAME
+    }
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
 
@@ -21,3 +24,15 @@ ext {
     artifactDescrption = "The models module of Stripe Payment Android SDK"
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
+}

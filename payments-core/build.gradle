@@ -5,11 +5,18 @@ apply from: configs.androidLibrary
 apply plugin: 'kotlin-kapt'
 apply plugin: 'checkstyle'
 apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
+apply plugin: 'maven-publish'
 
 dependencies {
-    api project(":stripe-core")
-    api project(":payments-model")
-    compileOnly project(':financial-connections')
+    api project(":stripe-core") {
+        version VERSION_NAME
+    }
+    api project(":payments-model") {
+        version VERSION_NAME
+    }
+    compileOnly project(':financial-connections') {
+        version VERSION_NAME
+    }
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
@@ -103,4 +110,16 @@ ext {
     artifactId = "payments-core"
     artifactName = "payments-core"
     artifactDescrption = "The core module of Stripe Payment Android SDK"
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
 }

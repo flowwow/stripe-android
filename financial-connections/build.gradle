@@ -7,6 +7,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'checkstyle'
 apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'maven-publish'
 
 android {
     defaultConfig {
@@ -21,9 +22,15 @@ android {
 }
 
 dependencies {
-    api project(":stripe-core")
-    api project(":stripe-ui-core")
-    api project(":payments-model")
+    api project(":stripe-core") {
+        version VERSION_NAME
+    }
+    api project(":stripe-ui-core") {
+        version VERSION_NAME
+    }
+    api project(":payments-model") {
+        version VERSION_NAME
+    }
 
     implementation "androidx.activity:activity-ktx:$androidxActivityVersion"
     implementation "androidx.activity:activity-compose:$androidxActivityVersion"
@@ -98,4 +105,17 @@ ext {
     artifactId = "financial-connections"
     artifactName = "financial-connections"
     artifactDescrption = "The financial connections module of Stripe Android SDK"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
 }

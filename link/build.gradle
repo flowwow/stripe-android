@@ -6,13 +6,24 @@ apply from: configs.androidLibrary
 apply plugin: 'kotlin-kapt'
 apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+apply plugin: 'maven-publish'
 
 dependencies {
-    implementation project(':payments-core')
-    implementation project(':stripe-core')
-    implementation project(':payments-ui-core')
-    implementation project(':financial-connections')
-    implementation project(':stripe-ui-core')
+    implementation project(':payments-core') {
+        version VERSION_NAME
+    }
+    implementation project(':stripe-core') {
+        version VERSION_NAME
+    }
+    implementation project(':payments-ui-core') {
+        version VERSION_NAME
+    }
+    implementation project(':financial-connections') {
+        version VERSION_NAME
+    }
+    implementation project(':stripe-ui-core') {
+        version VERSION_NAME
+    }
 
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintlayoutVersion"
@@ -92,3 +103,15 @@ ext {
     artifactDescrption = "The Link module of Stripe Payment Android SDK"
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
+}

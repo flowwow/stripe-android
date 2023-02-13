@@ -3,9 +3,12 @@ ext.configs = [
 ]
 
 apply from: configs.androidLibrary
+apply plugin: 'maven-publish'
 
 dependencies {
-    implementation project(":stripe-core")
+    implementation project(":stripe-core") {
+        version VERSION_NAME
+    }
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintlayoutVersion"
 
     implementation "androidx.appcompat:appcompat:$androidxAppcompatVersion"
@@ -43,3 +46,28 @@ ext {
     artifactName = "camera-core"
     artifactDescrption = "The camera core module of Stripe Android SDK"
 }
+
+afterEvaluate {
+    publishing {
+//        repositories {
+//            maven {
+//                allowInsecureProtocol true
+//                url "http://80.249.147.247:8081/nexus/content/repositories/dubki-repo/"
+//                credentials {
+//                    username = 'admin'
+//                    password = '12345678'
+//                }
+//            }
+//        }
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
+}
+
+

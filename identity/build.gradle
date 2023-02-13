@@ -3,11 +3,18 @@ apply from: configs.androidLibrary
 apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'maven-publish'
 
 dependencies {
-    implementation project(":camera-core")
-    implementation project(":stripe-core")
-    implementation project(":stripe-ui-core")
+    implementation project(":camera-core") {
+        version VERSION_NAME
+    }
+    implementation project(":stripe-core") {
+        version VERSION_NAME
+    }
+    implementation project(":stripe-ui-core") {
+        version VERSION_NAME
+    }
 
     // vanilla tflite library
     implementation "org.tensorflow:tensorflow-lite:2.10.0"
@@ -105,4 +112,16 @@ ext {
     artifactId = "identity"
     artifactName = "identity"
     artifactDescrption = "Stripe Identity Android SDK"
+}
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
 }

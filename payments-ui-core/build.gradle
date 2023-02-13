@@ -6,12 +6,21 @@ apply from: configs.androidLibrary
 apply plugin: 'kotlin-kapt'
 apply plugin: "org.jetbrains.kotlin.plugin.parcelize"
 apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+apply plugin: 'maven-publish'
 
 dependencies {
-    implementation project(":stripe-core")
-    implementation project(":payments-core")
-    implementation project(":stripe-ui-core")
-    compileOnly project(":stripecardscan")
+    implementation project(":stripe-core") {
+        version VERSION_NAME
+    }
+    implementation project(":payments-core") {
+        version VERSION_NAME
+    }
+    implementation project(":stripe-ui-core") {
+        version VERSION_NAME
+    }
+    compileOnly project(":stripecardscan") {
+        version VERSION_NAME
+    }
     compileOnly "com.google.android.libraries.places:places:$placesVersion"
 
     implementation 'androidx.constraintlayout:constraintlayout-compose:1.0.1'
@@ -99,3 +108,15 @@ ext {
     artifactDescrption = "The core UI module of Stripe Android Payments SDKs"
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
+}
