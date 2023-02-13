@@ -8,6 +8,7 @@ buildscript {
     ext.dokkaVersion = '1.7.20'
 
     repositories {
+        maven { url 'https://jitpack.io' }
         mavenCentral()
         google()
         gradlePluginPortal()
@@ -34,6 +35,7 @@ allprojects {
     group = GROUP
 
     repositories {
+        maven { url 'https://jitpack.io' }
         mavenCentral()
         google()
         gradlePluginPortal()
