@@ -4,11 +4,27 @@ ext.configs = [
 apply from: configs.androidLibrary
 apply plugin: 'kotlin-android'
 apply plugin: 'signing'
+apply plugin: 'maven-publish'
 
 dependencies {
-    api project(':payments-core')
-    api project(':paymentsheet')
+    api project(':payments-core'){
+        version VERSION_NAME
+    }
+    api project(':paymentsheet'){
+        version VERSION_NAME
+    }
 
 }
 
-
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = "payments"
+                version = VERSION_NAME
+            }
+        }
+    }
+}

@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'checkstyle'
 apply plugin: 'org.jetbrains.kotlin.plugin.parcelize'
 apply plugin: 'kotlinx-serialization'
+apply plugin: 'maven-publish'
 
 android {
     testOptions {
@@ -23,10 +24,18 @@ android {
 }
 
 dependencies {
-    implementation project(":stripe-core")
-    implementation project(":payments-core")
-    implementation project(":payments-ui-core")
-    implementation project(":stripe-ui-core")
+    implementation project(":stripe-core"){
+        version VERSION_NAME
+    }
+    implementation project(":payments-core"){
+        version VERSION_NAME
+    }
+    implementation project(":payments-ui-core"){
+        version VERSION_NAME
+    }
+    implementation project(":stripe-ui-core"){
+        version VERSION_NAME
+    }
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.browser:browser:$androidxBrowserVersion"
@@ -60,4 +69,17 @@ ext {
     artifactId = "payment-method-messaging"
     artifactName = "payment-method-messaging"
     artifactDescrption = "The Payment Method Messaging module of Stripe Android SDK"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = GROUP
+                artifactId = artifactId
+                version = VERSION_NAME
+            }
+        }
+    }
 }
