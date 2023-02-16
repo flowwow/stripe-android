@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import java.security.InvalidParameterException
 import java.util.*
 
-internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>(), PaymentSheetErrorHandler {
+internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>() {
     @VisibleForTesting
     internal val viewBinding by lazy {
         ActivityPaymentSheetBinding.inflate(layoutInflater)
@@ -75,18 +75,6 @@ internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>(), P
     private val linkButton by lazy { viewBinding.linkButton }
     private val topMessage by lazy { viewBinding.topMessage }
     private val googlePayDivider by lazy { viewBinding.googlePayDivider }
-
-    val registerForActivityLanguageResult = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            finish()
-            startActivity(starterArgs?.stripeErrorHandler?.finishHandler?.invoke(this))
-        }
-    }
-
-    override fun stripeHandleError(intent: Intent) {
-        registerForActivityLanguageResult.launch(intent)
-    }
 
     override fun attachBaseContext(newBase: Context?) {
         val locale = Locale(ConfigurationHelper.lang)
@@ -175,8 +163,8 @@ internal class PaymentSheetActivity : BaseSheetActivity<PaymentSheetResult>(), P
             viewBinding.buyButton.updateState(viewState?.convert())
         }
 
-        viewModel.stripeErrorFlow.launchAndCollectIn(this) { stripeErrorhandler ->
-            stripeErrorhandler?.startHandler?.invoke(this, this)
+        viewModel.stripeErrorFlow.launchAndCollectIn(this) { stripeErrorHandler ->
+            stripeErrorHandler?.startHandler?.invoke(this)
         }
     }
 
